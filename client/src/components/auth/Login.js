@@ -1,8 +1,11 @@
 import { set } from "mongoose";
 import React, { Fragment, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types'
+import { login } from '../../actions/auth'
 
-const Login = () => {
+const Login = ({ login , isAuthenticated}) => {
     const [formData, setformData] = useState({
         email :'',
         password :''
@@ -13,9 +16,13 @@ const Login = () => {
 
     const onSubmit = (e) =>{
         e.preventDefault();
-        console.log("SUCCESS");
+        //console.log("SUCCESS");
+        login(email, password);
     }
-    const {name, email, password, password2} = formData; 
+    const { name, email, password, password2 } = formData; 
+    if( isAuthenticated ){
+        return <Redirect to='/dashboard' />
+    }
   return (
     <Fragment>
       <h1 className="large text-primary">Sign In</h1>
@@ -52,4 +59,13 @@ const Login = () => {
   );
 };
 
-export default Login;
+Login.propTypes = {
+    login : PropTypes.func.isRequired,
+    isAuthenticated : PropTypes.bool
+}
+
+const mapStateToProps = state => ({
+    isAuthenticated:state.auth.isAuthenticated
+});
+
+export default connect(mapStateToProps,{ login })(Login);
