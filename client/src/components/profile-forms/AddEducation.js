@@ -4,7 +4,7 @@ import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { addEducation } from "../../actions/profile";
 
-const AddEducation = ({ addExperience, history }) => {
+const AddEducation = ({ addEducation, history }) => {
   const [formData, setFormData] = useState({
     school: "",
     degree: "",

@@ -98,7 +98,7 @@ export const addEducation = (formData, history) => async (dispatch) => {
         "Content-Type": "application/json",
       },
     };
-
+    console.log("hanji");
     const res = await axios.put("/api/profiles/education", formData, config);
     dispatch({
       type: UPDATE_PROFILE,
