@@ -13,9 +13,10 @@ const Dashboard = ({
   auth: { user },
   profile: { profile, loading },
 }) => {
+  console.log("testing profile: ", profile);
   useEffect(() => {
     getCurrentProfile();
-  }, []);
+  }, [getCurrentProfile]);
   console.log("profile is : " + JSON.stringify(profile));
 
   return loading && profile === null ? (
@@ -30,6 +31,7 @@ const Dashboard = ({
         <Fragment>
           <DashboardAction />
           <Experience experience={profile.experience}></Experience>
+          <Education education={profile.education}></Education>
         </Fragment>
       ) : (
         <Fragment>
@@ -51,7 +53,7 @@ Dashboard.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  console.log("mapsStateToProps state in Dashboard: " + JSON.stringify(state));
+  //console.log("mapsStateToProps state in Dashboard: " + JSON.stringify(state));
   return {
     auth: state.auth,
     profile: state.profile,
