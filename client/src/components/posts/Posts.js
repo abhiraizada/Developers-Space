@@ -8,7 +8,6 @@ import PostItem from "./PostItem";
 const Posts = ({ getPosts, post: { posts, loading } }) => {
   useEffect(() => {
     getPosts();
-    console.log("pots :", getPosts());
   }, [getPosts]);
   return loading ? (
     <Spinner />
@@ -21,7 +20,7 @@ const Posts = ({ getPosts, post: { posts, loading } }) => {
       {/* post form */}
       <div className="posts">
         {posts.map((post) => (
-          <PostItem key={post.id} post={post} />
+          <PostItem key={post._id} post={post} />
         ))}
       </div>
     </Fragment>

@@ -1,6 +1,13 @@
 import axios from "axios";
 import { setAlert } from "./alert";
-import { GET_POSTS, POST_ERROR, UPDATE_LIKES, UPDATE_PROFILE } from "./types";
+import {
+  GET_POSTS,
+  POST_ERROR,
+  UPDATE_LIKES,
+  UPDATE_PROFILE,
+  DELETE_POST,
+  ADD_POST,
+} from "./types";
 
 //All Posts
 export const getPosts = () => async (dispatch) => {
@@ -13,7 +20,7 @@ export const getPosts = () => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: POST_ERROR,
-      payload: { msg: err.repsonse.statusText, status: err.repsonse.status },
+      payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
 };
@@ -32,7 +39,7 @@ export const addLike = (id) => async (dispatch) => {
     console.log("res[onse err: ", err);
     dispatch({
       type: POST_ERROR,
-      payload: { msg: err.repsonse.statusText, status: err.repsonse.status },
+      payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
 };
@@ -48,7 +55,46 @@ export const removeLike = (id) => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: POST_ERROR,
-      payload: { msg: err.repsonse.statusText, status: err.repsonse.status },
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+//Delete Post
+export const deletePost = (id) => async (dispatch) => {
+  try {
+    const res = await axios.delete(`/api/posts/${id}`);
+    dispatch({
+      type: DELETE_POST,
+      payload: id,
+    });
+    dispatch(setAlert("Post Deleted", "success"));
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+//Add Post
+export const addPost = (formData) => async (dispatch) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  try {
+    await axios.post(`/api/posts`, formData, config);
+    dispatch({
+      type: ADD_POST,
+      payload: formData,
+    });
+    dispatch(setAlert("Post Added", "success"));
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
 };
