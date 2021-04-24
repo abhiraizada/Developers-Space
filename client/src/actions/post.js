@@ -105,12 +105,15 @@ export const addPost = (formData) => async (dispatch) => {
 //Get Post
 export const getPost = (id) => async (dispatch) => {
   try {
+    console.log(id);
     const res = await axios.get(`/api/posts/${id}`);
+    console.log("printing res: ", res.data);
     dispatch({
       type: GET_POST,
       payload: res.data,
     });
   } catch (err) {
+    console.log("printing error: ", err);
     dispatch({
       type: POST_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
